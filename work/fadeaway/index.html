@@ -91,7 +91,7 @@
 
     <figure class="lead-figure">
       <img src="/assets/img/fadeaway-card.webp" width="1200" height="630" decoding="async" alt="FADEAWAY during the tracking window: the recovered set of shots drawn on one halfcourt in the league's own zone colours, orange at the rim, red in the paint, blue beyond the arc, with the ball's real paths as faint strokes over black.">
-      <figcaption>The window, during the 89 days when the league's optical tracking was public: the shots the join recovers, drawn with the ball's actual paths, in the league's own zone colours. Made for a laptop screen; the <a href="https://dkdan10.github.io/analytics_resolution/" target="_blank" rel="noopener">live piece</a> opens with a short guided overview.</figcaption>
+      <figcaption>The window, during the 89 days when the league's optical tracking was public: the shots the join recovers, drawn with the ball's actual paths, in the league's own zone colors. The <a href="https://dkdan10.github.io/analytics_resolution/" target="_blank" rel="noopener">live piece</a> opens with a short guided overview.</figcaption>
     </figure>
 
     <section class="page-section" aria-labelledby="what-title">
@@ -99,18 +99,6 @@
       <div class="prose">
         <p><strong>The artwork.</strong> FADEAWAY draws the NBA's public shot record, about 5.9 million regular-season attempts over thirty seasons, on one halfcourt that never moves. Every mark is a real record, and the image degrades exactly where the record does: where the archive places a shot coarsely, or refuses to place it at all, the piece draws that rather than smoothing it over. For 89 days, from October 27, 2015 to January 23, 2016, the league's SportVU optical tracking was public. That window is the only period where the motion between a shot's endpoints survives.</p>
         <p><strong>The pipeline.</strong> Python over 5.9M shot attempts across 30 seasons and 632 tracked games at 25 Hz: it mirrors the public archives, measures each season, joins every tracking game to the shot log, and writes compact binary artifacts. A zero-dependency TypeScript/Canvas renderer draws everything from those artifacts, and <code>render(mode, t)</code> is a pure function of one time value, so scrubbing backwards rebuilds the frame and never remembers.</p>
-        <p><strong>The gate.</strong> A bare run reproduces a fixed acceptance table, decodes every shipped binary, and runs a catalogue of 121 seeded defects, each of which must be caught by the named check that owns it; a catch by an unrelated check fails the suite. One zone function is checked from Python and from TypeScript against one shared fixture. A purity probe proves that scrubbing backwards rebuilds and never remembers. The acceptance table is a self-measured regression fixture: it catches the pipeline changing, not the record being wrong.</p>
-      </div>
-    </section>
-
-    <section class="page-section" aria-labelledby="ask-title">
-      <h2 id="ask-title">Three things worth asking me about</h2>
-      <div class="prose">
-        <ol class="stories">
-          <li><strong>The record's idea of "where" is not constant.</strong> In 1996–97 the shot log files 95.4% of rim shots on a single coordinate; from 2010–11 through 2013–14 none; then the pile returns at new addresses, dunks first, then tip-ins. The piece draws each refusal as a pin at the coordinate the record actually used. Corroborated by a second instrument for exactly one season (2015–16); the other five cannot be checked by anything public.</li>
-          <li><strong>Joining tracking to the shot log is subtle.</strong> Event numberings disagree in 101 of the 632 tracked games by a small constant, so every shot silently takes its neighbour's coordinate. Each game's offset is calibrated by letting its releases vote, then checked by geometry. Held-out validation: 99.0% for straight joins, 84.6% for accepted shifts. The join recovers about 45% of shots; five detectors were built and scored before accepting that as the ceiling.</li>
-          <li><strong>The gate.</strong> A bare run reproduces the acceptance table, decodes every shipped binary, and runs the 121 seeded defects, each caught by the check that owns it and by no other. The defects corrupt data and documents, not code. The rule behind it: a gate that cannot be shown going red is not evidence.</li>
-        </ol>
       </div>
     </section>
 
