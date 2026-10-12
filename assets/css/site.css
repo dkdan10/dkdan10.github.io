@@ -16,10 +16,6 @@
   --accent-ring: rgba(110, 168, 255, 0.18);
   --accent-contrast: #07111f;
   --header-bg: rgba(11, 13, 16, 0.78);
-  --term-bg-1: #14171c;
-  --term-bg-2: #1d2128;
-  --term-fg: #e8eaed;
-  --term-muted: #9aa0a6;
   --maxw: 960px;
   --measure: 70ch;
   --radius: 10px;
@@ -52,10 +48,6 @@
     --accent-ring: rgba(31, 95, 208, 0.16);
     --accent-contrast: #ffffff;
     --header-bg: rgba(250, 250, 250, 0.82);
-    --term-bg-1: #f3f4f6;
-    --term-bg-2: #e6e9ee;
-    --term-fg: #1a1d21;
-    --term-muted: #555b63;
   }
 }
 
@@ -418,49 +410,6 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.project .terminal {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, var(--term-bg-1) 0%, var(--term-bg-2) 100%);
-  display: flex;
-  flex-direction: column;
-  font-family: var(--font-mono);
-  color: var(--term-fg);
-  padding: var(--space-2);
-}
-
-.project .terminal-bar {
-  display: flex;
-  gap: 6px;
-  padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--border);
-  margin-bottom: var(--space-2);
-}
-
-.project .terminal-bar span {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: var(--border-strong);
-}
-
-.project .terminal pre {
-  margin: 0;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  color: var(--term-fg);
-  line-height: 1.5;
-  font-size: clamp(11px, 1.5vw, 12px);
-}
-
-.project .terminal .prompt {
-  color: var(--accent);
-}
-
-.project .terminal .out {
-  color: var(--term-muted);
 }
 
 .project .body {
