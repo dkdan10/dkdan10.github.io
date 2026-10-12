@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FADEAWAY — Daniel Keinan</title>
+  <meta name="description" content="FADEAWAY: thirty NBA seasons of shots on one halfcourt that never moves. A Python pipeline, a TypeScript/Canvas renderer, an acceptance gate with 121 seeded defects, and the companion paper CONTESTED: How Data Is Defined, Gathered, and Owned.">
+  <meta name="author" content="Daniel Keinan">
+  <meta name="color-scheme" content="dark light">
+
+  <link rel="canonical" href="https://dkdan10.github.io/work/fadeaway/">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6ea8ff">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dkdan10.github.io/work/fadeaway/">
+  <meta property="og:title" content="FADEAWAY — thirty NBA seasons on one halfcourt that never moves">
+  <meta property="og:description" content="A data artwork where every mark traces to a real record, plus the companion paper CONTESTED: How Data Is Defined, Gathered, and Owned. By Daniel Keinan.">
+  <meta property="og:image" content="https://dkdan10.github.io/assets/img/fadeaway-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FADEAWAY — thirty NBA seasons on one halfcourt that never moves">
+  <meta name="twitter:description" content="A data artwork where every mark traces to a real record, plus the companion paper CONTESTED: How Data Is Defined, Gathered, and Owned. By Daniel Keinan.">
+  <meta name="twitter:image" content="https://dkdan10.github.io/assets/img/fadeaway-og.png">
+
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script defer src="/assets/js/site.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "CONTESTED: How Data Is Defined, Gathered, and Owned",
+    "name": "CONTESTED: How Data Is Defined, Gathered, and Owned",
+    "author": {
+      "@type": "Person",
+      "name": "Daniel Keinan",
+      "url": "https://dkdan10.github.io/"
+    },
+    "datePublished": "2026-08-13",
+    "inLanguage": "en",
+    "url": "https://dkdan10.github.io/papers/CONTESTED_Daniel_Keinan.pdf",
+    "encodingFormat": "application/pdf",
+    "isPartOf": {
+      "@type": "CreativeWork",
+      "name": "FADEAWAY",
+      "url": "https://dkdan10.github.io/analytics_resolution/"
+    },
+    "about": {
+      "@type": "VisualArtwork",
+      "name": "FADEAWAY",
+      "url": "https://dkdan10.github.io/analytics_resolution/",
+      "creator": { "@type": "Person", "name": "Daniel Keinan" }
+    }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand">Daniel Keinan</a>
+      <nav class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="/#work">Work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/papers/">Papers</a></li>
+          <li class="nav-resume"><a href="/resume/Daniel_Keinan_Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container page">
+    <div class="page-head">
+      <span class="eyebrow">Project · Paper</span>
+      <h1>FADEAWAY</h1>
+      <p class="lede">Thirty NBA seasons of shots on one halfcourt that never moves.</p>
+      <div class="links-row">
+        <a href="https://dkdan10.github.io/analytics_resolution/" target="_blank" rel="noopener">Live</a>
+        <a href="https://github.com/dkdan10/analytics_resolution" target="_blank" rel="noopener">Code</a>
+        <a href="/papers/CONTESTED_Daniel_Keinan.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
+      </div>
+    </div>
+
+    <figure class="lead-figure">
+      <img src="/assets/img/fadeaway-card.webp" width="1200" height="630" decoding="async" alt="FADEAWAY during the tracking window: the recovered set of shots drawn on one halfcourt in the league's own zone colours, orange at the rim, red in the paint, blue beyond the arc, with the ball's real paths as faint strokes over black.">
+      <figcaption>The window, during the 89 days when the league's optical tracking was public: the shots the join recovers, drawn with the ball's actual paths, in the league's own zone colours. Made for a laptop screen; the <a href="https://dkdan10.github.io/analytics_resolution/" target="_blank" rel="noopener">live piece</a> opens with a short guided overview.</figcaption>
+    </figure>
+
+    <section class="page-section" aria-labelledby="what-title">
+      <h2 id="what-title">What it is</h2>
+      <div class="prose">
+        <p><strong>The artwork.</strong> FADEAWAY draws the NBA's public shot record, about 5.9 million regular-season attempts over thirty seasons, on one halfcourt that never moves. Every mark is a real record, and the image degrades exactly where the record does: where the archive places a shot coarsely, or refuses to place it at all, the piece draws that rather than smoothing it over. For 89 days, from October 27, 2015 to January 23, 2016, the league's SportVU optical tracking was public. That window is the only period where the motion between a shot's endpoints survives.</p>
+        <p><strong>The pipeline.</strong> Python over 5.9M shot attempts across 30 seasons and 632 tracked games at 25 Hz: it mirrors the public archives, measures each season, joins every tracking game to the shot log, and writes compact binary artifacts. A zero-dependency TypeScript/Canvas renderer draws everything from those artifacts, and <code>render(mode, t)</code> is a pure function of one time value, so scrubbing backwards rebuilds the frame and never remembers.</p>
+        <p><strong>The gate.</strong> A bare run reproduces a fixed acceptance table, decodes every shipped binary, and runs a catalogue of 121 seeded defects, each of which must be caught by the named check that owns it; a catch by an unrelated check fails the suite. One zone function is checked from Python and from TypeScript against one shared fixture. A purity probe proves that scrubbing backwards rebuilds and never remembers. The acceptance table is a self-measured regression fixture: it catches the pipeline changing, not the record being wrong.</p>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="ask-title">
+      <h2 id="ask-title">Three things worth asking me about</h2>
+      <div class="prose">
+        <ol class="stories">
+          <li><strong>The record's idea of "where" is not constant.</strong> In 1996–97 the shot log files 95.4% of rim shots on a single coordinate; from 2010–11 through 2013–14 none; then the pile returns at new addresses, dunks first, then tip-ins. The piece draws each refusal as a pin at the coordinate the record actually used. Corroborated by a second instrument for exactly one season (2015–16); the other five cannot be checked by anything public.</li>
+          <li><strong>Joining tracking to the shot log is subtle.</strong> Event numberings disagree in 101 of the 632 tracked games by a small constant, so every shot silently takes its neighbour's coordinate. Each game's offset is calibrated by letting its releases vote, then checked by geometry. Held-out validation: 99.0% for straight joins, 84.6% for accepted shifts. The join recovers about 45% of shots; five detectors were built and scored before accepting that as the ceiling.</li>
+          <li><strong>The gate.</strong> A bare run reproduces the acceptance table, decodes every shipped binary, and runs the 121 seeded defects, each caught by the check that owns it and by no other. The defects corrupt data and documents, not code. The rule behind it: a gate that cannot be shown going red is not evidence.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page-section" id="paper" aria-labelledby="paper-title">
+      <h2 id="paper-title">The paper</h2>
+      <div class="paper-card">
+        <h3>CONTESTED: How Data Is Defined, Gathered, and Owned</h3>
+        <p class="meta">Daniel Keinan · Written for "Theories, Methods, and Experiments in Art and AI" (Columbia University, Dr. Emily Spratt) · August 2026 · 14 pages, PDF</p>
+        <p>An NBA statistic is made the way an artwork is: someone chooses the instant, the subject, and where the definitions are drawn. The league publishes the picture while withholding the choices. The paper follows those choices through home-scorer bias in the box score, the three incompatible official meanings of "contested," the 89-day public tracking window and its closure, the Sportradar/Second Spectrum and Hawk-Eye agreements, player data rights under the NBA and NFL collective bargaining agreements, and Refik Anadol's <em>Living Memory: Messi</em>. FADEAWAY is the paper's evidence in material form.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/papers/CONTESTED_Daniel_Keinan.pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+        <p class="cite">Keinan, Daniel. "CONTESTED: How Data Is Defined, Gathered, and Owned." Companion paper to FADEAWAY, 2026. <a href="https://dkdan10.github.io/papers/CONTESTED_Daniel_Keinan.pdf">https://dkdan10.github.io/papers/CONTESTED_Daniel_Keinan.pdf</a></p>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="role-title">
+      <h2 id="role-title">My role</h2>
+      <div class="prose">
+        <p>This project was built with AI coding agents (Claude Code and Codex) as the implementers. My work was the specification, the architecture decisions, the evaluation methodology, and the acceptance gates — deciding what counts as done and refusing to ship what didn't clear the bar. I did not hand-write the production code.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year">2026</span> Daniel Keinan</span>
+      <span>Built with HTML, CSS, and a small amount of JavaScript. <a href="https://github.com/dkdan10/dkdan10.github.io" target="_blank" rel="noopener">Source</a>.</span>
+    </div>
+  </footer>
+</body>
+</html>

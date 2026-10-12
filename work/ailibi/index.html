@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AiLibi — Daniel Keinan</title>
+  <meta name="description" content="AiLibi: a deterministic, reproducible Among Us–style simulation where LLM agents see only what their position allows and must cite the evidence they actually observed when they accuse. How it is built, what was measured, and who did what.">
+  <meta name="author" content="Daniel Keinan">
+  <meta name="color-scheme" content="dark light">
+
+  <link rel="canonical" href="https://dkdan10.github.io/work/ailibi/">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#6ea8ff">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dkdan10.github.io/work/ailibi/">
+  <meta property="og:title" content="AiLibi — can agents reason from what they actually saw?">
+  <meta property="og:description" content="A deterministic, reproducible Among Us–style simulation where LLM agents must cite the evidence they actually observed when they accuse. By Daniel Keinan.">
+  <meta property="og:image" content="https://dkdan10.github.io/assets/img/ailibi-spectator.png">
+  <meta property="og:image:width" content="2036">
+  <meta property="og:image:height" content="909">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AiLibi — can agents reason from what they actually saw?">
+  <meta name="twitter:description" content="A deterministic, reproducible Among Us–style simulation where LLM agents must cite the evidence they actually observed when they accuse. By Daniel Keinan.">
+  <meta name="twitter:image" content="https://dkdan10.github.io/assets/img/ailibi-spectator.png">
+
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script defer src="/assets/js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="brand">Daniel Keinan</a>
+      <nav class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="/#work">Work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/papers/">Papers</a></li>
+          <li class="nav-resume"><a href="/resume/Daniel_Keinan_Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container page">
+    <div class="page-head">
+      <span class="eyebrow">Project</span>
+      <h1>AiLibi</h1>
+      <p class="lede">Can an LLM agent's accusation be traced to evidence it actually saw? A deterministic social-deduction simulation built to measure that.</p>
+      <div class="links-row">
+        <a href="https://dkdan10.github.io/AiLibi/" target="_blank" rel="noopener">Live demo</a>
+        <a href="https://github.com/dkdan10/AiLibi" target="_blank" rel="noopener">Code</a>
+        <a href="https://github.com/dkdan10/AiLibi/blob/main/docs/architecture.md" target="_blank" rel="noopener">Architecture</a>
+        <a href="https://github.com/dkdan10/AiLibi/blob/main/docs/ml-program.md" target="_blank" rel="noopener">ML program</a>
+      </div>
+    </div>
+
+    <figure class="lead-figure">
+      <img src="/assets/img/ailibi-spectator.png" width="2036" height="909" decoding="async" alt="Two views of the same moment. Left: the full map at tick 9, with every player visible, two bodies down, one impostor in MedBay and one inside a vent. Right: the same map fogged to only what player p-5 could see, which is the Labs room with p-4 and p-6 in it. Below the right view: the accusation p-5 wrote at the meeting that followed, 'Vote out p-4', with the single observation it cites: saw p-4 in Labs at tick 11.">
+      <figcaption>Left: what happened at tick 9. Right: what p-5 could see at the same tick. Below: the accusation p-5 wrote at the meeting that followed, with the observation it cites. Open the citation in the <a href="https://dkdan10.github.io/AiLibi/" target="_blank" rel="noopener">live demo</a> and judge whether it supports the accusation.</figcaption>
+    </figure>
+
+    <section class="page-section" aria-labelledby="what-title">
+      <h2 id="what-title">What it is</h2>
+      <div class="prose">
+        <p>Seven crewmates and two impostors move through a small map of rooms. Crewmates do tasks; impostors kill, deceive, and sabotage. Reporting a body or calling an emergency meeting starts a structured discussion and a vote. Each agent sees only what its position allows: the room it is in, who is there, and what it can hear. Crew win by finishing tasks or ejecting every impostor; impostors win through parity or an unresolved sabotage.</p>
+        <p>The research question is whether an LLM agent's accusations actually follow from evidence it saw. Every eject ballot has to cite an observation or a statement, and the spectator view links each vote to the exact source it cites, so you can open the ballot, inspect the scene, and judge for yourself. A resolvable citation can still be irrelevant, and a real sighting can still support a bad inference. The point is that the chain is there to check.</p>
+        <p>Every game is a replay: the same seed, configuration, and recorded model responses rebuild the same bytes, so any claim about a game can be re-derived from its recording.</p>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="how-title">
+      <h2 id="how-title">How it's built</h2>
+      <div class="prose">
+        <ol class="flow" aria-label="Layers, in order of data flow">
+          <li>engine</li>
+          <li>observation firewall</li>
+          <li>agents / meetings</li>
+          <li>orchestrator</li>
+          <li>eval / API</li>
+          <li>spectator UI</li>
+        </ol>
+        <ul>
+          <li><strong>A pure, deterministic tick.</strong> The engine advances frozen state and actions with no wall clock or globals, and the full RNG state is serialized into every state hash, so a committed replay can be rebuilt and checked byte for byte.</li>
+          <li><strong>An observation "firewall," enforced three ways.</strong> Import-linter contracts forbid agents from importing the engine; planted import-leak tests must be rejected by the build; recursive scans of every observation packet look for hidden fields.</li>
+          <li><strong>Two-tier agents.</strong> A rule-based tactical policy decides movement and tasks every tick. LLM strategic reasoning runs only at meetings, from typed memory and derived beliefs.</li>
+          <li><strong>Four provider adapters behind one cost-budgeted client.</strong> Every real run carries token, cost, and wall-time limits; ordinary checks run against a deterministic fake provider with no network.</li>
+          <li><strong>Prompts versioned per model family.</strong> A recording names the prompt version and model that produced it, so results from different models are never silently pooled.</li>
+        </ul>
+        <p class="note">Python 3.11, FastAPI and Pydantic, React/Vite/PixiJS, strict mypy, pytest and Hypothesis, GitHub Actions. The <a href="https://github.com/dkdan10/AiLibi/blob/main/docs/architecture.md" target="_blank" rel="noopener">architecture note</a> states the layering and the enforced boundaries.</p>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="measured-title">
+      <h2 id="measured-title">What was measured</h2>
+      <div class="prose">
+        <p>From the repo's audits:</p>
+        <ul>
+          <li>100 of 100 committed sample replays reconstruct byte-identically.</li>
+          <li>526 of 527 eject ballots carry a resolvable citation.</li>
+          <li>Ejection accuracy with engine-certified proof of the ejectee's role: 333 of 333. Without it: 50 of 96.</li>
+          <li>An evolution-strategies search produced four impostor policies that beat the scripted baseline on win rate. None were adopted: each failed a pre-registered evidence-quality gate.</li>
+        </ul>
+        <p class="note">"Resolvable" means the citation points at a real line in the record, not that the line supports the accusation. The spread between the two ejection-accuracy cells shows agents acting on certified facts, and it is not a demonstration of general social deduction. The <a href="https://github.com/dkdan10/AiLibi/blob/main/docs/ml-program.md" target="_blank" rel="noopener">ML program note</a> records the search, the negative results, and their limits.</p>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="role-title">
+      <h2 id="role-title">My role</h2>
+      <div class="prose">
+        <p>This project was built with AI coding agents (Claude Code and Codex) as the implementers. My work was the specification, the architecture decisions, the evaluation methodology, and the acceptance gates — deciding what counts as done and refusing to ship what didn't clear the bar. I did not hand-write the production code. The audits in the repo were written by separate AI reviewers, not by independent human reviewers, and the README says the same.</p>
+      </div>
+    </section>
+
+    <section class="page-section" aria-labelledby="links-title">
+      <h2 id="links-title">Links</h2>
+      <div class="prose">
+        <ul>
+          <li><a href="https://dkdan10.github.io/AiLibi/" target="_blank" rel="noopener">Live demo</a>: the recorded spectator, with a guided tour.</li>
+          <li><a href="https://github.com/dkdan10/AiLibi" target="_blank" rel="noopener">Repository</a>: code, replays, audits, and the offline verification steps.</li>
+          <li><a href="https://github.com/dkdan10/AiLibi/blob/main/docs/architecture.md" target="_blank" rel="noopener">docs/architecture.md</a>: layering, enforced boundaries, determinism.</li>
+          <li><a href="https://github.com/dkdan10/AiLibi/blob/main/docs/ml-program.md" target="_blank" rel="noopener">docs/ml-program.md</a>: the learned-policy search and why nothing was adopted.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year">2026</span> Daniel Keinan</span>
+      <span>Built with HTML, CSS, and a small amount of JavaScript. <a href="https://github.com/dkdan10/dkdan10.github.io" target="_blank" rel="noopener">Source</a>.</span>
+    </div>
+  </footer>
+</body>
+</html>
