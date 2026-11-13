@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AiLibi — Daniel Keinan</title>
-  <meta name="description" content="AiLibi: a deterministic, reproducible Among Us–style simulation where LLM agents see only what their position allows and must cite the evidence they actually observed when they accuse. How it is built, what was measured, and who did what.">
+  <meta name="description" content="AiLibi: a deterministic, reproducible Among Us–style simulation where LLM agents see only what their position allows. In the 50 recorded nine-player games, all 397 votes to eject cite a line the voter saw or heard. How it is built, what was measured, and who did what.">
   <meta name="author" content="Daniel Keinan">
   <meta name="color-scheme" content="dark light">
 
@@ -18,14 +18,14 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dkdan10.github.io/work/ailibi/">
   <meta property="og:title" content="AiLibi — can agents reason from what they actually saw?">
-  <meta property="og:description" content="A deterministic, reproducible Among Us–style simulation where LLM agents must cite the evidence they actually observed when they accuse. By Daniel Keinan.">
+  <meta property="og:description" content="A deterministic, reproducible Among Us–style simulation played by LLM agents. In the 50 recorded nine-player games, all 397 votes to eject cite a line the voter saw or heard. By Daniel Keinan.">
   <meta property="og:image" content="https://dkdan10.github.io/assets/img/ailibi-spectator.png">
   <meta property="og:image:width" content="2036">
   <meta property="og:image:height" content="909">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="AiLibi — can agents reason from what they actually saw?">
-  <meta name="twitter:description" content="A deterministic, reproducible Among Us–style simulation where LLM agents must cite the evidence they actually observed when they accuse. By Daniel Keinan.">
+  <meta name="twitter:description" content="A deterministic, reproducible Among Us–style simulation played by LLM agents. In the 50 recorded nine-player games, all 397 votes to eject cite a line the voter saw or heard. By Daniel Keinan.">
   <meta name="twitter:image" content="https://dkdan10.github.io/assets/img/ailibi-spectator.png">
 
   <link rel="stylesheet" href="/assets/css/site.css">
@@ -52,7 +52,7 @@
     <div class="page-head">
       <span class="eyebrow">Project</span>
       <h1>AiLibi</h1>
-      <p class="lede">Can an LLM agent's accusation be traced to evidence it actually saw? A deterministic social-deduction simulation built to measure that.</p>
+      <p class="lede">Can an LLM agent's accusation be traced to something it actually saw or heard? A deterministic social-deduction simulation built to measure that.</p>
       <div class="links-row">
         <a href="https://dkdan10.github.io/AiLibi/" target="_blank" rel="noopener">Live demo</a>
         <a href="https://github.com/dkdan10/AiLibi" target="_blank" rel="noopener">Code</a>
@@ -70,7 +70,7 @@
       <h2 id="what-title">What it is</h2>
       <div class="prose">
         <p>Seven crewmates and two impostors move through a small map of rooms. Crewmates do tasks; impostors kill, deceive, and sabotage. Reporting a body or calling an emergency meeting starts a structured discussion and a vote. Each agent sees only what its position allows: the room it is in, who is there, and what it can hear. Crew win by finishing tasks or ejecting every impostor; impostors win through parity or an unresolved sabotage.</p>
-        <p>The research question is whether an LLM agent's accusations actually follow from evidence it saw. Every eject ballot has to cite an observation or a statement, and the spectator view links each vote to the exact source it cites, so you can open the ballot, inspect the scene, and judge for yourself. A resolvable citation can still be irrelevant, and a real sighting can still support a bad inference. The point is that the chain is there to check.</p>
+        <p>The research question is whether an LLM agent's accusations actually follow from something it saw or heard. The ballot asks for a citation on any vote to eject: a line the voter saw or heard. In the 50 recorded nine-player games, all 397 votes to eject carry one. The spectator view links each of those votes to the line it cites, so you can open the ballot, inspect the scene, and judge for yourself. A resolvable citation can still be irrelevant, and a real sighting can still support a bad inference. The point is that the chain is there to check.</p>
         <p>Every game is a replay: the same seed, configuration, and recorded model responses rebuild the same bytes, so any claim about a game can be re-derived from its recording.</p>
       </div>
     </section>
